@@ -10,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,9 +28,9 @@ public class CollectionControllerTest {
   MockMvc mockMvc;
 
   @Test
-  @DisplayName("Rota GET /collections/count/{typesList} implementada")
+  @DisplayName("Rota GET /collection/count/{typeList} implementada")
   void testGetCollectionTypesCount() throws Exception {
-    String[] collectionTypes = new String[] {"história"};
+    String[] collectionTypes = new String[]{"história"};
     CollectionTypeCount collectionTypeCount = new CollectionTypeCount(collectionTypes, 300);
     Mockito.when(collectionTypeService.countByCollectionTypes("história"))
         .thenReturn(collectionTypeCount);
@@ -36,7 +38,8 @@ public class CollectionControllerTest {
     mockMvc.perform(get("/collections/count/história"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.count").value(300))
-        .andExpect(jsonPath("$.collectionTypes").isArray())
-        .andExpect(jsonPath("$.collectionTypes[0]").value("história"));
+        .andExpect(jsonPath("$.collectionTypes").value(collectionTypes[0]));
+
   }
+
 }

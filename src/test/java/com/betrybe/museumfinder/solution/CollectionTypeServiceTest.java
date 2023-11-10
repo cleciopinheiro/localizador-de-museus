@@ -12,8 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @SpringBootTest
-@DisplayName("Testes da CollectionService")
-public class CollectionServiceTest {
+@DisplayName("Testes da CollectionTypeService")
+public class CollectionTypeServiceTest {
+
   @MockBean
   MuseumFakeDatabase museumFakeDatabase;
 
@@ -21,17 +22,17 @@ public class CollectionServiceTest {
   CollectionTypeService service;
 
   @Test
-  @DisplayName("Testa se o método countByCollectionTypes retorna o resultado correto")
+  @DisplayName("Testa countByCollectionTypes")
   void testCountByCollectionTypes() {
     Mockito.when(museumFakeDatabase.countByCollectionType("história"))
         .thenReturn(300L);
-    String[] collectionTypes = new String[]{"história"};
-    CollectionTypeCount collectionTypeCount = new CollectionTypeCount(collectionTypes, 300L);
+    String[] type = new String[]{"história"};
+    CollectionTypeCount collectionTypeCount = new CollectionTypeCount(type, 300L);
 
     Assertions.assertEquals(collectionTypeCount.count(),
         service.countByCollectionTypes("história").count());
-
     Assertions.assertEquals(collectionTypeCount.collectionTypes()[0],
         service.countByCollectionTypes("história").collectionTypes()[0]);
   }
+
 }

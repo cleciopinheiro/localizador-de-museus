@@ -9,6 +9,7 @@ import com.betrybe.museumfinder.util.ModelDtoConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,18 @@ public class MuseumController {
   ) {
     Coordinate coordinate = new Coordinate(lat, lng);
     Museum museum = service.getClosestMuseum(coordinate, maxDistanceKm);
+    MuseumDto museumDto = ModelDtoConverter.modelToDto(museum);
+    return ResponseEntity.status(HttpStatus.OK).body(museumDto);
+  }
+
+  /**
+   * GetMapping.
+   *
+   * @param id long.
+   */
+  @GetMapping("/{id}")
+  public ResponseEntity<MuseumDto> getMuseumById(@PathVariable long id) {
+    Museum museum = service.getMuseum(id);
     MuseumDto museumDto = ModelDtoConverter.modelToDto(museum);
     return ResponseEntity.status(HttpStatus.OK).body(museumDto);
   }
